@@ -11,7 +11,7 @@ package intercorpretail.reto.inretail.entities;
  */
 public class ClienteDato {
     Double promedioEdad;
-    int desviacionEstandar;
+    Double desviacionEstandar;
 
     public Double getPromedioEdad() {
         return promedioEdad;
@@ -21,11 +21,11 @@ public class ClienteDato {
         this.promedioEdad = promedioEdad;
     }
 
-    public int getDesviacionEstandar() {
+    public Double getDesviacionEstandar() {
         return desviacionEstandar;
     }
 
-    public void setDesviacionEstandar(int desviacionEstandar) {
+    public void setDesviacionEstandar(Double desviacionEstandar) {
         this.desviacionEstandar = desviacionEstandar;
     }
     

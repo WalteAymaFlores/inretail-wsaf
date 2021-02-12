@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import intercorpretail.reto.inretail.entities.Cliente;
 import intercorpretail.reto.inretail.entities.ClienteDato;
-import intercorpretail.reto.inretail.service.ClienteInterface;
-import intercorpretail.reto.inretail.service.ClienteService;
+import intercorpretail.reto.inretail.service.IClienteServiceImpl;
+import intercorpretail.reto.inretail.service.IClienteService;
 
 /**
  *
@@ -31,18 +31,17 @@ import intercorpretail.reto.inretail.service.ClienteService;
 public class ClienteRestController {
 
     @Autowired
-    ClienteInterface clienteInterface;
+    IClienteService clienteInterface;
 
     @GetMapping("/clientes")
     public List<Cliente> getClient() {
-        System.out.println("ingreso a list = ");
         return clienteInterface.getClient();
     }
 
     @GetMapping("/kpideclientes")
-    public ClienteDato getAverageClient() {
-        List<Cliente> clientes=clienteInterface.getClient();
-        return clienteInterface.getAgeAverageClient(clientes);
+    public ClienteDato getAverageAndStandarDeviationClient() {
+        ClienteDato clientes = clienteInterface.getDataClient();
+        return clientes;
     }
 
     @PostMapping("/creacliente")
