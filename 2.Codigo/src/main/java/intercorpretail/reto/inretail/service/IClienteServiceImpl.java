@@ -40,52 +40,70 @@ public class IClienteServiceImpl implements IClienteService {
 
     @Override
     public ClienteDato getDataClient() {
-        ClienteDato clienteDato=new ClienteDato();
-        List<Cliente> clientes=clienteRepository.findAll();
-        List<Date> fechaNac = new LinkedList<>();
-        for (Cliente cliente : clientes) {
-            fechaNac.add(cliente.getFechaNacimiento());
+        try {
+            ClienteDato clienteDato = new ClienteDato();
+            List<Cliente> clientes = clienteRepository.findAll();
+            List<Date> fechaNac = new LinkedList<>();
+            for (Cliente cliente : clientes) {
+                fechaNac.add(cliente.getFechaNacimiento());
+            }
+            Double promedio = getAgeAverageClient(fechaNac);
+            Double desviacionEstandar = getStandarDeviationClient(fechaNac);
+            clienteDato.setPromedioEdad(promedio);
+            clienteDato.setDesviacionEstandar(desviacionEstandar);
+            return clienteDato;
+        } catch (Exception e) {
+            System.out.println("e = " + e);
+            return null;
         }
-        Double promedio=getAgeAverageClient(fechaNac);
-        Double desviacionEstandar=getStandarDeviationClient(fechaNac);
-        clienteDato.setPromedioEdad(promedio);
-        clienteDato.setDesviacionEstandar(desviacionEstandar);
-        return clienteDato;
+
     }
 
     @Override
     public Double getStandarDeviationClient(List<Date> fechaNac) {
-        int cantidadClientes = 0;
-        Double desviacionEstandar = 0.0;
-        Double mediaAritmetica = getAgeAverageClient(fechaNac);
-        Double sumatoria = 0.0;
-        for (Date obj : fechaNac) {
-            cantidadClientes++;
-            Double edad = new Double(getAge(new SimpleDateFormat("dd/MM/yyyy").format(obj)));
-            Double resta = edad - mediaAritmetica;
-            Double numerador = Math.pow(resta, 2);
-            sumatoria = sumatoria + numerador;
+        try {
+            int cantidadClientes = 0;
+            Double desviacionEstandar = 0.0;
+            Double mediaAritmetica = getAgeAverageClient(fechaNac);
+            Double sumatoria = 0.0;
+            for (Date obj : fechaNac) {
+                cantidadClientes++;
+                Double edad = new Double(getAge(new SimpleDateFormat("dd/MM/yyyy").format(obj)));
+                Double resta = edad - mediaAritmetica;
+                Double numerador = Math.pow(resta, 2);
+                sumatoria = sumatoria + numerador;
+            }
+            desviacionEstandar = Math.sqrt(sumatoria / (cantidadClientes - 1));
+            return desviacionEstandar;
+        } catch (Exception e) {
+            System.out.println("e = " + e);
+            return null;
         }
-        desviacionEstandar = Math.sqrt(sumatoria / (cantidadClientes - 1));
-        return desviacionEstandar;
+
     }
 
     @Override
     public Double getAgeAverageClient(List<Date> fechaNac) {
-        int cantidadClientes = 0;
-        Double suma = 0.0;
-        Double promedio = 0.0;
+        try {
+            int cantidadClientes = 0;
+            Double suma = 0.0;
+            Double promedio = 0.0;
 
-        for (Date obj : fechaNac) {
-            cantidadClientes++;
-            int edad = getAge(new SimpleDateFormat("dd/MM/yyyy").format(obj));
-            System.out.println("edad = " + edad);
-            suma = suma + edad;
+            for (Date obj : fechaNac) {
+                cantidadClientes++;
+                int edad = getAge(new SimpleDateFormat("dd/MM/yyyy").format(obj));
+                System.out.println("edad = " + edad);
+                suma = suma + edad;
+            }
+
+            promedio = Math.round(suma / cantidadClientes * 100d) / 100d;
+
+            return promedio;
+        } catch (Exception e) {
+            System.out.println("e = " + e);
+            return null;
         }
 
-        promedio = Math.round(suma / cantidadClientes * 100d) / 100d;
-
-        return promedio;
     }
 
     @Override

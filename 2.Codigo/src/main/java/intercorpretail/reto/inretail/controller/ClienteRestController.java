@@ -34,7 +34,7 @@ public class ClienteRestController {
     IClienteService clienteInterface;
 
     @GetMapping("/clientes")
-    public List<Cliente> getClient() {
+    public List<Cliente> getClient() {        
         return clienteInterface.getClient();
     }
 
